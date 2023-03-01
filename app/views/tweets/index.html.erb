@@ -1,0 +1,14 @@
+<h1>ホーム</h1>
+<h2>アカウント作成</h2>
+<%= form_with model: @user do |f| %>
+  <%= f.text_field :name %>
+  <div id="telephone_field">
+    <%= f.telephone_field :phone_number %>
+    <%= link_to "代わりにメールアドレスを登録する", tweets_path %>
+  </div>
+  <div id="email_field">
+    <%= f.email_field :email %>
+    <%= link_to "代わりに電話番号を登録する", tweets_path %>
+  </div>
+  <%= f.text_field :name %>
+<% end %>
