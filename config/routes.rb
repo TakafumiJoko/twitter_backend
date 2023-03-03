@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  post "/user", to: "users#create"
+  post "/signup", to: "users#create"
+  post "/login", to: "users#login"
+  post "/tweet", to: "tweets#create"
 end
