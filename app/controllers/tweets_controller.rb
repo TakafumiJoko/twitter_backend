@@ -11,10 +11,10 @@ class TweetsController < ApplicationController
 
   private
     def tweet_params
-      params.permit(:message)
+      params.permit(:message, :user_id)
     end
 
     def set_user
-      @user = User.find_by(id: cookies[:user_id])
+      @user = User.find_by!(id: tweet_params[:user_id])
     end
 end

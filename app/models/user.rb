@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   before_validation :set_name, on: :create
 
+  has_many :tweets, dependent: :destroy
+
   validates :name, presence: true, length: { in: 5..15 }, uniqueness: true, format: { with: /\A@[\w_]+\z/ }
   validates :nickname, presence: true, length: { in: 4..50 }
   validates :phone_number, length: { in: 10..11 }, uniqueness: true, format: { with: /\A0\d+\z/ }, allow_nil: true
