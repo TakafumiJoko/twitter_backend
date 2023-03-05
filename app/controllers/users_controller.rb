@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :set_user, only: [:show, :update]
+
   def create
     user = User.create(user_params)
     render json: {
@@ -24,15 +26,27 @@ class UsersController < ApplicationController
   end
 
   def show
-    user = User.find(params[:id])
     render json: {
       status: :showed,
+      user: @user
+    }
+  end
+
+  def update
+    @user.update(user_params)
+    user = User.find(params[:id])
+    render json: {
+      status: :updated,
       user: user
     }
   end
   
   private
     def user_params
-      params.permit(:id, :nickname, :phone_number, :email, :birthday)
+      params.permit(:nickname, :phone_number, :email, :birthday, :introduction, :residence, :website)
+    end
+
+    def set_user
+      @user = User.find(params[:id])
     end
 end

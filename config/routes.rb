@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  post "/signup", to: "users#create"
   post "/login", to: "users#login"
-  post "/tweet", to: "tweets#create"
-  get "/users/:id", to: "users#show"
+  resources :users do
+    resources :tweets
+  end
+  match '*path' => 'options_request#response_preflight_request', via: :options
 end
