@@ -28,7 +28,8 @@ class UsersController < ApplicationController
   def show
     render json: {
       status: :showed,
-      user: @user
+      user: @user,
+      tweets: @user.tweets
     }
   end
 
