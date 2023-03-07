@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update]
+  before_action :set_user, only: [:show, :update,:destroy]
 
   def create
     user = User.create(user_params)
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def login
-    user = User.find(user_params[:id])
+    user = User.find_by(password: user_params[:password])
     if user.phone_number && user.phone_number == user_params[:phone_number] 
       render json: {
         status: :logined,
@@ -40,10 +40,14 @@ class UsersController < ApplicationController
       user: user
     }
   end
+
+  def destroy
+    @user.destroy
+  end
   
   private
     def user_params
-      params.permit(:nickname, :phone_number, :email, :birthday, :introduction, :residence, :website)
+      params.permit(:nickname, :phone_number, :email, :birthday, :password, :introduction, :residence, :website)
     end
 
     def set_user

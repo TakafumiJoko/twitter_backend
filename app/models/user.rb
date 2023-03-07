@@ -8,6 +8,7 @@ class User < ApplicationRecord
   validates :phone_number, length: { in: 10..11 }, uniqueness: true, format: { with: /\A0\d+\z/ }, allow_nil: true
   validates :email, length: { maximum: 256 }, format: { with: /\A[\w.+_\-]+@(\w([\w-]*\w).){1,3}[a-z]{2,}\z/ }, allow_nil: true
   validates :birthday, presence: true
+  validates :password, presence: true, length: { in: 8..16 }, format: { with: /\A[\w_@!?]+\z/ }
   validates :introduction, length: { maximum: 160 }, on: :update
   validates :residence, length: { maximum: 30 }, on: :update
   validates :website, length: { maximum: 100 }, uniqueness: { case_sensitive: false }, format: { with: /\Ahttps?:\/\/(\w([\w-]*\w).){1,3}[a-z]{2,}(\/[\w_\-]*)*\z/ }, allow_nil: true, on: :update
