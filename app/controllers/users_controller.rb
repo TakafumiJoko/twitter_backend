@@ -29,7 +29,6 @@ class UsersController < ApplicationController
     render json: {
       status: :showed,
       user: @user,
-      tweets: @user.tweets
     }
   end
 
@@ -48,7 +47,7 @@ class UsersController < ApplicationController
   
   private
     def user_params
-      params.permit(:nickname, :phone_number, :email, :birthday, :password, :introduction, :residence, :website)
+      params.require(:user).permit(:nickname, :phone_number, :email, :birthday, :password, :introduction, :residence, :website)
     end
 
     def set_user

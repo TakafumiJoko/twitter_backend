@@ -1,6 +1,6 @@
 class TweetsController < ApplicationController
-  before_action :set_user, only: [:create]
-  before_action :set_tweet, only: [:destroy]
+  before_action :set_user, only: [:create, :index]
+  before_action :set_tweet, only: [:update, :destroy]
 
   def create
     tweet = @user.tweets.create(tweet_params)
@@ -10,9 +10,25 @@ class TweetsController < ApplicationController
     }
   end
 
+  def index 
+    tweets = @user.tweets
+    render json: {
+      status: :indexed,
+      tweets: tweets,
+    }
+  end
+
+  def update
+    @tweet.update(tweet_params)
+    tweet = Tweet.find_by(id: params[:id])
+    render json: {
+      status: :updated,
+      tweet: tweet,
+    }
+  end
+
   def destroy
     @tweet.destroy
-    tweet = Tweet.find_by(id: params[:id])
     render json: {
       status: :destroyed,
     }
@@ -20,7 +36,7 @@ class TweetsController < ApplicationController
 
   private
     def tweet_params
-      params.permit(:message)
+      params.require(:tweet).permit(:message)
     end
 
     def set_user
