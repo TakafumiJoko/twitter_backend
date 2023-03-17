@@ -34,7 +34,7 @@ class TweetsController < ApplicationController
     }
   end
 
- 
+  
 
   private
     def tweet_params

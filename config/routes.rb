@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :tweets
   end
+  get "/tags", to: "application#tags"
   get "/:key", to: "application#search"
   match '*path' => 'options_request#response_preflight_request', via: :options
 end

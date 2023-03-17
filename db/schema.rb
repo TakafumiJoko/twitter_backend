@@ -10,9 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_07_135254) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_17_160432) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_categories_on_name"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "checked", default: false, null: false
+  end
+
+  create_table "trends", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "popularity", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "count", null: false
+    t.index ["category_id"], name: "index_trends_on_category_id"
+    t.index ["count"], name: "index_trends_on_count"
+    t.index ["name"], name: "index_trends_on_name"
+    t.index ["popularity"], name: "index_trends_on_popularity"
+  end
 
   create_table "tweets", force: :cascade do |t|
     t.text "message"
@@ -42,5 +69,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_135254) do
     t.index ["website"], name: "index_users_on_website", unique: true
   end
 
+  add_foreign_key "trends", "categories"
   add_foreign_key "tweets", "users"
 end
