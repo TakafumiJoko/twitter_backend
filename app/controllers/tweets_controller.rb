@@ -5,7 +5,6 @@ class TweetsController < ApplicationController
   def create
     tweet = @user.tweets.create(tweet_params)
     render json: {
-      status: :created,
       tweet: tweet,
     }
   end
@@ -13,7 +12,6 @@ class TweetsController < ApplicationController
   def index 
     tweets = @user.tweets
     render json: {
-      status: :indexed,
       tweets: tweets,
     }
   end
@@ -22,7 +20,6 @@ class TweetsController < ApplicationController
     @tweet.update(tweet_params)
     tweet = Tweet.find_by(id: params[:id])
     render json: {
-      status: :updated,
       tweet: tweet,
     }
   end
@@ -30,11 +27,16 @@ class TweetsController < ApplicationController
   def destroy
     @tweet.destroy
     render json: {
-      status: :destroyed,
+      tweet: @tweet,
     }
   end
 
-  
+  def search
+    tweets = Tweet.where("message LIKE ?", "%#{params[:key]}%")
+    render json: {
+      tweets: tweets,
+    }
+  end
 
   private
     def tweet_params

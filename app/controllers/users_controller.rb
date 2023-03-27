@@ -1,11 +1,10 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update,:destroy]
+  before_action :set_user, only: [:show, :update, :destroy]
 
   def create
     user = User.create(user_params)
     render json: {
-      status: :created,
-      user: user
+      user: user,
     }
   end
 
@@ -13,13 +12,11 @@ class UsersController < ApplicationController
     user = User.find_by(password: user_params[:password])
     if user.phone_number && user.phone_number == user_params[:phone_number] 
       render json: {
-        status: :logined,
         user: user
       }
     end
     if user.email && user.email == user_params[:email] 
       render json: {
-        status: :logined,
         user: user
       }
     end
@@ -27,22 +24,23 @@ class UsersController < ApplicationController
 
   def show
     render json: {
-      status: :showed,
       user: @user,
     }
   end
 
   def update
     @user.update(user_params)
-    user = User.find(params[:id])
+    user = User.find(params[:id]) 
     render json: {
-      status: :updated,
-      user: user
+      user: user,
     }
   end
 
   def destroy
     @user.destroy
+    render json: {
+      user: @user,
+    }
   end
   
   private
