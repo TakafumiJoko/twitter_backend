@@ -10,6 +10,7 @@ class UsersController < ApplicationController
 
   def login
     user = User.find_by(password: user_params[:password])
+    # if user && user.authenit
     if user.phone_number && user.phone_number == user_params[:phone_number] 
       render json: {
         user: user
