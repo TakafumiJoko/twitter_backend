@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_06_094207) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_06_164838) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_094207) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name"
+  end
+
+  create_table "hash_tags", force: :cascade do |t|
+    t.string "value"
+    t.bigint "tweet_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tweet_id"], name: "index_hash_tags_on_tweet_id"
   end
 
   create_table "relationships", force: :cascade do |t|
@@ -85,6 +93,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_094207) do
     t.index ["website"], name: "index_users_on_website", unique: true
   end
 
+  add_foreign_key "hash_tags", "tweets"
   add_foreign_key "trends", "categories"
   add_foreign_key "tweet_relationships", "tweets", column: "replied_id"
   add_foreign_key "tweet_relationships", "tweets", column: "reply_id"

@@ -15,6 +15,11 @@ Rails.application.routes.draw do
 
   post "/users/:user_id/tweets/:id/replies", to: "tweets#reply"
   get "/users/:user_id/tweets/:id/replies", to: "tweets#replies"
+
+  resources :tweets do
+    resources :hash_tags, only: [:create]
+  end
+
   get "/tweets/:key", to: "tweets#search"
 
   get "/tags", to: "application#tags"
