@@ -1,9 +1,20 @@
 Rails.application.routes.draw do
-  post "/login", to: "users#login"
-  post "/login", to: "users#login"
   resources :users do
     resources :tweets
   end
+
+  resources :users do
+    resource :relationships, only: [:create, :destroy, :followings, :followers]
+      post 'follow/:followed_id' => 'relationships#create', as: 'follow'
+      delete 'unfollow/:followed_id' => 'relationships#destroy', as: 'unfollow'
+      get 'followings' => 'relationships#followings', as: 'followings'
+      get 'followers' => 'relationships#followers', as: 'followers'
+  end
+
+  post "/login", to: "users#login"
+
+  post "/users/:user_id/tweets/:id/replies", to: "tweets#reply"
+  get "/users/:user_id/tweets/:id/replies", to: "tweets#replies"
   get "/tweets/:key", to: "tweets#search"
 
   get "/tags", to: "application#tags"

@@ -1,11 +1,17 @@
 class TweetsController < ApplicationController
-  before_action :set_user, only: [:create, :index]
-  before_action :set_tweet, only: [:update, :destroy]
+  before_action :set_user, only: [:create, :index, :reply]
+  before_action :set_tweet, only: [:show, :update, :destroy, :replies]
 
   def create
     tweet = @user.tweets.create(tweet_params)
     render json: {
       tweet: tweet,
+    }
+  end
+
+  def show 
+    render json: {
+      tweet: @tweet
     }
   end
 
@@ -35,6 +41,21 @@ class TweetsController < ApplicationController
     tweets = Tweet.where("message LIKE ?", "%#{params[:key]}%")
     render json: {
       tweets: tweets,
+    }
+  end
+
+  def reply
+    reply = @user.tweets.create(tweet_params)
+    replied_id = reply.tweet_relationships.create(replied_id: params[:id]).replied_id
+    render json: {
+      reply_id: reply.id,
+      replied_id: replied_id,
+    }
+  end
+
+  def replies
+    render json: {
+      tweets: @tweet.replies
     }
   end
 

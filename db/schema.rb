@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_17_160432) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_06_094207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_160432) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_categories_on_name"
+  end
+
+  create_table "relationships", force: :cascade do |t|
+    t.integer "following_id"
+    t.integer "followed_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tags", force: :cascade do |t|
@@ -39,6 +46,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_160432) do
     t.index ["count"], name: "index_trends_on_count"
     t.index ["name"], name: "index_trends_on_name"
     t.index ["popularity"], name: "index_trends_on_popularity"
+  end
+
+  create_table "tweet_relationships", force: :cascade do |t|
+    t.bigint "reply_id", null: false
+    t.bigint "replied_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["replied_id"], name: "index_tweet_relationships_on_replied_id"
+    t.index ["reply_id"], name: "index_tweet_relationships_on_reply_id"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -70,5 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_160432) do
   end
 
   add_foreign_key "trends", "categories"
+  add_foreign_key "tweet_relationships", "tweets", column: "replied_id"
+  add_foreign_key "tweet_relationships", "tweets", column: "reply_id"
   add_foreign_key "tweets", "users"
 end
