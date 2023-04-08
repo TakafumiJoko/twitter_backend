@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  post   '/login',   to: 'sessions#create'
+  delete '/logout',  to: 'sessions#destroy'
+
   resources :users do
     resources :tweets
   end
@@ -11,7 +14,6 @@ Rails.application.routes.draw do
       get 'followers' => 'relationships#followers', as: 'followers'
   end
 
-  post "/login", to: "users#login"
 
   post "/users/:user_id/tweets/:id/replies", to: "tweets#reply"
   get "/users/:user_id/tweets/:id/replies", to: "tweets#replies"
@@ -19,6 +21,8 @@ Rails.application.routes.draw do
   resources :tweets do
     resources :hash_tags, only: [:create]
   end
+
+  resources :trends
 
   get "/tweets/:key", to: "tweets#search"
 

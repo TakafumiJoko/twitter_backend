@@ -8,8 +8,7 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :followed
   has_many :followers, through: :reverse_of_relationships, source: :following
 
-  # has_secure_password
-
+  
   validates :name, presence: true, length: { in: 5..15 }, uniqueness: true, format: { with: /\A@[\w_]+\z/ }
   validates :nickname, presence: true, length: { in: 4..50 }
   validates :phone_number, uniqueness: true, format: { with: /\A0\d{9,10}\z/ }, allow_nil: true
@@ -19,9 +18,7 @@ class User < ApplicationRecord
   validates :introduction, length: { maximum: 160 }, on: :update
   validates :residence, length: { maximum: 30 }, on: :update
   validates :website, length: { maximum: 100 }, uniqueness: { case_sensitive: false }, format: { with: /\Ahttps?:\/\/(\w([\w-]*\w).){1,3}[a-z]{2,}(\/[\w_\-]*)*\z/ }, allow_nil: true, on: :update
-
-  # attr_accessor :password_digest
-
+    
   def follow(user_id)
     relationships.create(followed_id: user_id)
   end

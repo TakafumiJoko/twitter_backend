@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_06_164838) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,7 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_164838) do
 
   create_table "trends", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "popularity", null: false
     t.bigint "category_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -53,7 +52,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_164838) do
     t.index ["category_id"], name: "index_trends_on_category_id"
     t.index ["count"], name: "index_trends_on_count"
     t.index ["name"], name: "index_trends_on_name"
-    t.index ["popularity"], name: "index_trends_on_popularity"
   end
 
   create_table "tweet_relationships", force: :cascade do |t|
@@ -84,11 +82,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_06_164838) do
     t.string "website"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "password", null: false
+    t.string "password"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["nickname"], name: "index_users_on_nickname"
-    t.index ["password"], name: "index_users_on_password"
     t.index ["phone_number"], name: "index_users_on_phone_number", unique: true
     t.index ["website"], name: "index_users_on_website", unique: true
   end

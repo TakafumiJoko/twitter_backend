@@ -5,7 +5,13 @@ class HashTagsController < ApplicationController
     render json: {
       hash_tag: hash_tag,
     }
-    p hash_tag, hash_tag_params
+  end
+
+  def index
+    hash_tags = HashTag.where('created_at >= ?', DateTime.now - 14).select(:value, :hash_tag_count).distinct.count
+    render json: {
+      hash_tags: hash_tags
+    }
   end
 
   private
