@@ -31,6 +31,10 @@ class User < ApplicationRecord
     followings.includ?(user)
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["birthday", "created_at", "email", "id", "introduction", "name", "nickname", "password", "phone_number", "residence", "updated_at", "website"]
+  end
+
   private
     def set_name
       self.name = "@" + SecureRandom.alphanumeric(14)

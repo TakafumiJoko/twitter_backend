@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
 
+  get '/users', to: "users#search"
+
   resources :users do
     resources :tweets
   end
@@ -24,7 +26,10 @@ Rails.application.routes.draw do
 
   resources :trends
 
-  get "/tweets/:key", to: "tweets#search"
+  get 'searches/data', to: 'searches#data'
+  get 'searches/tweets', to: 'searches#tweets'
+
+  get 'tweets/:q', to: "tweets#search"
 
   get "/tags", to: "application#tags"
 

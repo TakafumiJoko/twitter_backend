@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_15_090236) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,6 +26,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
     t.bigint "tweet_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_hash_tags_on_category_id"
     t.index ["tweet_id"], name: "index_hash_tags_on_tweet_id"
   end
 
@@ -34,6 +36,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
     t.integer "followed_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "search_words", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_search_words_on_name"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -51,7 +60,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
     t.integer "count", null: false
     t.index ["category_id"], name: "index_trends_on_category_id"
     t.index ["count"], name: "index_trends_on_count"
-    t.index ["name"], name: "index_trends_on_name"
+  end
+
+  create_table "tweet_hash_tags", force: :cascade do |t|
+    t.bigint "tweet_id", null: false
+    t.bigint "hash_tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hash_tag_id"], name: "index_tweet_hash_tags_on_hash_tag_id"
+    t.index ["tweet_id"], name: "index_tweet_hash_tags_on_tweet_id"
   end
 
   create_table "tweet_relationships", force: :cascade do |t|
@@ -68,6 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "checked", default: false, null: false
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
@@ -90,8 +108,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_064201) do
     t.index ["website"], name: "index_users_on_website", unique: true
   end
 
+  add_foreign_key "hash_tags", "categories"
   add_foreign_key "hash_tags", "tweets"
   add_foreign_key "trends", "categories"
+  add_foreign_key "tweet_hash_tags", "hash_tags"
+  add_foreign_key "tweet_hash_tags", "tweets"
   add_foreign_key "tweet_relationships", "tweets", column: "replied_id"
   add_foreign_key "tweet_relationships", "tweets", column: "reply_id"
   add_foreign_key "tweets", "users"

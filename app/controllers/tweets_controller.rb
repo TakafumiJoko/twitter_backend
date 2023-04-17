@@ -1,6 +1,7 @@
 class TweetsController < ApplicationController
   before_action :set_user, only: [:create, :index, :reply]
   before_action :set_tweet, only: [:show, :update, :destroy, :replies]
+  before_action :set_query, only: [:search]
 
   def create
     tweet = @user.tweets.create(tweet_params)
@@ -38,7 +39,7 @@ class TweetsController < ApplicationController
   end
 
   def search
-    tweets = Tweet.where("message LIKE ?", "%#{params[:key]}%")
+    tweets = @q.result.order('created_at desc')
     render json: {
       tweets: tweets,
     }
@@ -71,4 +72,9 @@ class TweetsController < ApplicationController
     def set_tweet
       @tweet = Tweet.find_by(id: params[:id])
     end
+
+    def set_query
+      @q = Tweet.ransack(params[:q])
+    end
+
 end
