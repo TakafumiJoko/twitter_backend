@@ -20,11 +20,13 @@ Rails.application.routes.draw do
   post "/users/:user_id/tweets/:id/replies", to: "tweets#reply"
   get "/users/:user_id/tweets/:id/replies", to: "tweets#replies"
 
-  resources :tweets do
-    resources :hash_tags, only: [:create]
+  resources :categories, only: [:index] do
+    resources :hash_tags, only: [:index]
   end
 
-  resources :trends
+  get "hash_tag/tweets/:id", to: "tweets#hash_tag"
+
+  get "main", to: "categories#main"
 
   get 'searches/data', to: 'searches#data'
   get 'searches/tweets', to: 'searches#tweets'
@@ -34,9 +36,6 @@ Rails.application.routes.draw do
   get "/tags", to: "application#tags"
 
   get "/:key", to: "application#search"
-
-  get "/categories", to: "categories#index"
-  get "/categories/:category_id/trends", to: "trends#index"
 
   match '*path' => 'options_request#response_preflight_request', via: :options
 end

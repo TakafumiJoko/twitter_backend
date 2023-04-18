@@ -51,6 +51,11 @@ gem "bootsnap", require: false
 
 gem "rack-cors"
 
+<<<<<<< Updated upstream
+=======
+gem 'whenever', require: false
+
+>>>>>>> Stashed changes
 gem 'ransack'
 
 group :development, :test do
