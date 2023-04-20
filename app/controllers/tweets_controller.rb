@@ -1,11 +1,7 @@
 class TweetsController < ApplicationController
   before_action :set_user, only: [:create, :index, :reply]
-<<<<<<< Updated upstream
-  before_action :set_tweet, only: [:show, :update, :destroy, :replies]
-  before_action :set_query, only: [:search]
-=======
   before_action :set_tweet, only: [:show, :update, :destroy, :replies, :hash_tag]
->>>>>>> Stashed changes
+  before_action :set_query, only: [:search]
 
   def create
     tweet = @user.tweets.create(tweet_params)
