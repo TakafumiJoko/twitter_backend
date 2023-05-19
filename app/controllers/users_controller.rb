@@ -4,12 +4,14 @@ class UsersController < ApplicationController
 
   def create
     user = User.create(user_params)
+    p 7, user
     render json: {
       user: user,
     }
   end
 
   def show
+    p @user
     render json: {
       user: @user,
     }
@@ -24,7 +26,7 @@ class UsersController < ApplicationController
 
   def update
     @user.update(user_params)
-    user = User.find(params[:id]) 
+    user = User.find(params[:username])
     render json: {
       user: user,
     }
@@ -52,7 +54,7 @@ class UsersController < ApplicationController
   
   private
     def user_params
-      params.require(:user).permit(:nickname, :phone_number, :email, :birthday, :password, :introduction, :residence, :website)
+      params.require(:user).permit(:nickname, :phone_number, :email, :birthday, :password, :introduction, :residence, :website, :avatar)
     end
 
     def search_word_params
@@ -60,7 +62,7 @@ class UsersController < ApplicationController
     end
 
     def set_user
-      @user = User.find(params[:id])
+      @user = User.find_by(name: params[:username])
     end
 
     def set_query

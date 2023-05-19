@@ -7,10 +7,10 @@ namespace :hash_tags do
     p User.first.tweets
 
     if Tweet.find_by('created_at >= ?', Time.now - 60 * 60 * 24 - 60 * 5).checked
-      tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60 * 24).select(:id, :user_id, :message).distinct
+      tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60 * 24).select(:id, :username, :message).distinct
       p "作業漏れが見つかりました。再発防止に努めてください。"
     else
-      tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60).select(:id, :user_id, :message).distinct
+      tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60).select(:id, :username, :message).distinct
     end
 
     tweets.each do |tweet|
@@ -87,10 +87,10 @@ end
 #       p User.first.tweets
       
 #       if Tweet.find_by('created_at >= ?', Time.now - 60 * 60 * 24 - 60 * 5).checked
-#         @tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60 * 24).select(:id, :user_id, :message).distinct
+#         @tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60 * 24).select(:id, :username, :message).distinct
 #         p "作業漏れが見つかりました。再発防止に努めてください。"
 #       else
-#         @tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60).select(:id, :user_id, :message).distinct
+#         @tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60).select(:id, :username, :message).distinct
 #       end
       
 #       p @tweets
@@ -177,10 +177,10 @@ end
 #     p User.first.tweets
 
 #     if Tweet.find_by('created_at >= ?', Time.now - 60 * 60 * 24 - 60 * 5).checked
-#       tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60 * 24).select(:id, :user_id, :message).distinct
+#       tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60 * 24).select(:id, :username, :message).distinct
 #       p "作業漏れが見つかりました。再発防止に努めてください。"
 #     else
-#       tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60).select(:id, :user_id, :message).distinct
+#       tweets = Tweet.where('message LIKE ? and checked = false and created_at >= ?', '%#%', Time.now - 60 * 60).select(:id, :username, :message).distinct
 #     end
 
 #     tweets.each do |tweet|

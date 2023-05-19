@@ -4,7 +4,9 @@ class TweetsController < ApplicationController
   before_action :set_query, only: [:search]
 
   def create
-    tweet = @user.tweets.create(tweet_params)
+    params = tweet_params
+    params[:images] = params[:images].to_h.map {|k, v| v}
+    tweet = @user.tweets.create(params)
     render json: {
       tweet: tweet,
     }
@@ -18,6 +20,7 @@ class TweetsController < ApplicationController
 
   def index 
     tweets = @user.tweets
+    p tweets
     render json: {
       tweets: tweets,
     }
@@ -25,7 +28,7 @@ class TweetsController < ApplicationController
 
   def update
     @tweet.update(tweet_params)
-    tweet = Tweet.find_by(id: params[:id])
+    tweet = Tweet.find_by(id: params[:username])
     render json: {
       tweet: tweet,
     }
@@ -47,7 +50,7 @@ class TweetsController < ApplicationController
 
   def reply
     reply = @user.tweets.create(tweet_params)
-    replied_id = reply.tweet_relationships.create(replied_id: params[:id]).replied_id
+    replied_id = reply.tweet_relationships.create(replied_id: params[:username]).replied_id
     render json: {
       reply_id: reply.id,
       replied_id: replied_id,
@@ -68,15 +71,15 @@ class TweetsController < ApplicationController
 
   private
     def tweet_params
-      params.require(:tweet).permit(:message)
+      params.require(:tweet).permit(:message, images: {})
     end
 
     def set_user
-      @user = User.find_by(id: params[:user_id])
+      @user = User.find_by(name: params[:username])
     end
 
     def set_tweet
-      @tweet = Tweet.find_by(id: params[:id])
+      @tweet = Tweet.find_by(id: params[:username])
     end
 
     def set_query

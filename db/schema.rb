@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< Updated upstream
-ActiveRecord::Schema[7.0].define(version: 2023_04_15_090236) do
-=======
-ActiveRecord::Schema[7.0].define(version: 2023_04_12_093357) do
->>>>>>> Stashed changes
+ActiveRecord::Schema[7.0].define(version: 2023_05_17_070747) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -90,6 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_093357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "checked", default: false, null: false
+    t.json "images"
     t.index ["user_id"], name: "index_tweets_on_user_id"
   end
 
@@ -105,6 +102,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_12_093357) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "password"
+    t.string "avatar"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", unique: true
     t.index ["nickname"], name: "index_users_on_nickname"
